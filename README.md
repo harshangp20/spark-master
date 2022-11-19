@@ -49,8 +49,6 @@ git checkout master
 
 ### How to run an intermediate state
 
-The repository was built while recording the lectures. Prior to each lecture, I tagged each commit so you can easily go back to an earlier state of the repo!
-
 The tags are as follows:
 
 * `start`
@@ -74,8 +72,6 @@ The tags are as follows:
 * `4.3-spark-sql-exercises`
 * `5.1-rdds`
 * `5.2-rdds-part-2`
-
-And for premium students, in addition:
 
 * `6.1-spark-job-anatomy`
 * `6.2-deploying-to-cluster`
