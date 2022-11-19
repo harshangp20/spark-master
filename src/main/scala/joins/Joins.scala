@@ -1,6 +1,7 @@
 package joins
 
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.expr
 
 object Joins extends App {
 
@@ -51,6 +52,9 @@ object Joins extends App {
 
   guitarsArtistDF.select("id","band")//.show()
 
-  //Rename 
+  //Rename
+  guitarsArtistDF.join(bandsDF.withColumnRenamed("id","band"),"band").show()
+
+  guitarsArtistDF.join(guitarsDF.withColumnRenamed("id","guitarId"),expr("array_contains(guitars,guitarId)"))
 
 }
