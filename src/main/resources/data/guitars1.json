@@ -1,0 +1,31 @@
+[{
+  "id": 10,
+  "model": "EDS-1275",
+  "make": "Gibson",
+  "guitarType": "Electric double-necked"
+},
+{
+  "id": 11,
+  "model": "Stratocaster",
+  "make": "Fender",
+  "guitarType": "Electric"
+},
+{
+  "id": 12,
+  "model": "SG",
+  "make": "Gibson",
+  "guitarType": "Electric"
+},
+{
+  "id": 13,
+  "model": "914",
+  "make": "Taylor",
+  "guitarType": "Acoustic"
+},
+{
+  "id": 34,
+  "model": "M-II",
+  "make": "ESP",
+  "guitarType": "Electric"
+}
+]

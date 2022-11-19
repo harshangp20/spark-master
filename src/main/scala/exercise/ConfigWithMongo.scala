@@ -28,6 +28,8 @@ object ConfigWithMongo extends App {
 
   val statusDF = df.select(specificColumns)
 
+  statusDF.show()
+
 //  df.filter("flightData.status")
 
   df.show()

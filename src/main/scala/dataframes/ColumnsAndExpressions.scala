@@ -34,7 +34,7 @@ object ColumnsAndExpressions extends App {
     expr("Origin")
   )
 
-  carsDetails.show()
+  //  carsDetails.show()
 
 
   val simplestExpression = carsDF.col("Weight_in_lbs")
@@ -46,6 +46,8 @@ object ColumnsAndExpressions extends App {
     weightInKgExpression.as("Weight_in_kg"),
     expr("Weight_in_lbs / 2.2").as("Weight_in_kg_2")
   )
+
+  //    carsWithWeightsDF.show()
 
   val carsWithSelectWeightsDF = carsDF.selectExpr(
     "Name",
@@ -59,19 +61,44 @@ object ColumnsAndExpressions extends App {
 
   carsWithColumnRenamed.selectExpr("'Weight in pounds'")
 
-  //  carsWithColumnRenamed.drop("Cylinders","Displacement").show()
+  carsWithColumnRenamed.drop("Cylinders", "Displacement")
 
   //  Filter
-  //  val europeanCarsDFWithFilter = carsDF.filter(col("Origin") =!= "USA")
-  //  val europeanCarsDFExtra = carsDF.filter(col("Origin") =!= "USA" && col("Origin") =!= "Japan")
+    val europeanCarsDFWithFilter = carsDF.filter(col("Origin") =!= "USA")
+    val europeanCarsDFExtra = carsDF.filter(col("Origin") =!= "USA" && col("Origin") =!= "Japan")
 
   //  Where
-  //val europeanCarsDFWithWhere = carsDF.where(col("Origin") === "USA").show()
+  val europeanCarsDFWithWhere = carsDF.where(col("Origin") === "USA").filter(col("Horsepower") > 150)
+  val europeanCarsDFWithWhere2 = carsDF.where((col("Origin") === "USA" and col("Horsepower") > 150)
+    or (col("Origin") === "Japan" and col("Horsepower") < 100))
 
-  //  carsWithKg3DF.show()
-  //  carsWithColumnRenamed.show()
-  //  carsWithSelectWeightsDF.show()
-  //  carsWithWeightsDF.show()
-  //  carsDF.show()
+  val europeanCarsDFWithWhere3 = carsDF.filter("Origin = 'USA' and Horsepower > 150 " +
+    "or Origin = 'Japan' and Horsepower < 100")
 
+  val moreCars = spark
+    .read
+    .option("inferSchema","true")
+    .json("data/guitars.json")
+//    .cache()
+
+  val moreCars2 = spark
+    .read
+    .option("inferSchema","true")
+    .json("data/guitars1.json")
+//    .cache()
+
+  /*val a = moreCars.filter($"_corrupt_record".isNull).count()
+  println(a)*/
+  val moreAndMoreCars = moreCars.union(moreCars2)
+
+  moreAndMoreCars
+    .show()
+
+//  europeanCarsDFWithFilter.show()
+//  europeanCarsDFExtra.show()
+//  europeanCarsDFWithWhere.show()
+//  europeanCarsDFWithWhere2.show()
+//  europeanCarsDFWithWhere3.show()
+//  moreCars.show()
+//  moreAndMoreCars.show()
 }
