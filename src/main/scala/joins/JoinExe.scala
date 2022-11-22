@@ -1,5 +1,6 @@
 package joins
 
+import dataTypes.DataTypes.spark
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
@@ -10,6 +11,8 @@ object JoinExe extends App {
     .appName("JOINS")
     .config("spark.master","local")
     .getOrCreate()
+
+  spark.sparkContext.setLogLevel("ERROR")
 
   val path = "data/stocks.csv"
   val driver = "org.postgresql.Driver"
@@ -34,8 +37,9 @@ object JoinExe extends App {
   val deptManagerDF = readTable("dept_manager")
   val titleDF = readTable("titles")
 
-  val maxSalariesPerEmpNoDF = salariesDF.groupBy("emp_no").agg(max("salary").as("to_date"))//.show()
+  val maxSalariesPerEmpNoDF = salariesDF.groupBy("emp_no").agg(max("salary").as("max_salary"))//.show()
   val employeesSalariesDF = employeeDF.join(maxSalariesPerEmpNoDF,"emp_no")
+//  employeesSalariesDF.show()
 //  employeesSalariesDF.show()
 
   val empNeverManagersDF =
@@ -48,10 +52,11 @@ object JoinExe extends App {
 //  empNeverManagersDF.show()
 
   val mostRecentJobTitlesDF =
-    titleDF.groupBy("emp_no").agg(max("to_date").as("to_date"))
-  val bestPaidEmployeesDF = employeesSalariesDF.orderBy(col("maxSalary").desc).limit(10)
+    titleDF.groupBy("emp_no","title").agg(max("to_date").as("retirement"))
+  mostRecentJobTitlesDF.show()
+  val bestPaidEmployeesDF = employeesSalariesDF.orderBy(col("max_salary").desc).limit(10)
   val bestPaidJobsDF = bestPaidEmployeesDF.join(mostRecentJobTitlesDF,"emp_no")
 
-  bestPaidJobsDF.show()
+  bestPaidJobsDF.show
 
 }
